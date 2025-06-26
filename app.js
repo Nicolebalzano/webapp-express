@@ -2,6 +2,7 @@
 import connection from "./db.js";
 import express from "express";
 import moviesRouter from "./Routes/movies.js";
+import notFound from "./middleware/notFound.js";
 
 const app = express();
 const port = process.env.SERVER_PORT;
@@ -15,6 +16,7 @@ app.get("/", (req, res) => {
     })
 })
 app.use("/movies", moviesRouter )
+app.use(notFound)
 
 
 app.listen(port, () => {

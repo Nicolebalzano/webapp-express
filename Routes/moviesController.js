@@ -18,7 +18,7 @@ const show = (req, res) => {
     const MovieSql = `SELECT * FROM movies WHERE id = ?`
     const reviewSql = `SELECT *
         FROM reviews
-        WHERE reviews.movie_id = 1`
+        WHERE reviews.movie_id = ?`
     connection.query(MovieSql, [id], (err, booksResults) => {
         if (err) {
             console.log("error")
