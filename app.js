@@ -4,6 +4,7 @@ import express from "express";
 import moviesRouter from "./Routes/movies.js";
 import notFound from "./middleware/notFound.js";
 import handleError from "./middleware/handleError.js";
+import imagePath from "./middleware/imagePath.js";
 
 const app = express();
 const port = process.env.SERVER_PORT;
@@ -16,7 +17,7 @@ app.get("/", (req, res) => {
        data:"Benvenuti nelle API dei movies"
     })
 })
-app.use("/movies", moviesRouter )
+app.use("/movies", imagePath, moviesRouter )
 app.use(notFound)
 app.use(handleError)
 

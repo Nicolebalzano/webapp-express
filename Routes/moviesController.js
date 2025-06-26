@@ -6,8 +6,14 @@ const index = (req, res) => {
         if (err) {
             console.log("errore")
         } else {
+            const movies = results.map((curMovie) => {
+                return {
+                    ...curMovie,
+                    image : `${req.imagePath}/${curMovie.image}` ,
+                }
+            })
             res.json({
-                data: results,
+                data: movies,
             })
         }
     })
