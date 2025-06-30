@@ -20,12 +20,12 @@ const index = (req, res, next) => {
 
 }
 const show = (req, res, next) => {
-    const id = req.params.id;
-    const MovieSql = `SELECT * FROM movies WHERE id = ?`
+    const slug = req.params.slug;
+    const MovieSql = `SELECT * FROM movies WHERE movies.slug = ?`
     const reviewSql = `SELECT *
         FROM reviews
         WHERE reviews.movie_id = ?`
-    connection.query(MovieSql, [id], (err, moviesResults) => {
+    connection.query(MovieSql, [slug], (err, moviesResults) => {
         if (err) {
              return next(new Error(err))
         }
@@ -34,7 +34,7 @@ const show = (req, res, next) => {
                 error: "Movie non trovato"
             })
         } else {
-            connection.query(reviewSql, [id], (err, reviewResults) => {
+            connection.query(reviewSql, [moviesResults[0].id], (err, reviewResults) => {
               if (err) {
              return next(new Error(err))
         }else{
