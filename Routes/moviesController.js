@@ -1,8 +1,19 @@
 import connection from "../db.js"
 
 const index = (req, res, next) => {
-    const sql = `SELECT * FROM movies`
-    connection.query(sql, (err, results) => {
+    const search = req.query.search;
+    let sql = `SELECT * FROM movies`
+    const params = [];
+    if(search) {
+        sql += `
+        WHERE movies.title LIKE ?
+        `;
+        params.push(`%${search}%`);
+    }else{
+        sql = `SELECT * FROM movies`
+    }
+  
+    connection.query(sql, params,  (err, results) => {
         if (err) {
            return next(new Error(err))
         } else {
