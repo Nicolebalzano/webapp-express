@@ -64,7 +64,38 @@ const show = (req, res, next) => {
     })
 
 }
+const storeReview = (req, res, next) => {
+const {id} = req.params;
+console.log(id)
+const movieSql = `
+SELECT *
+FROM movies
+WHERE id = ?
+`;
+connection.query(movieSql, [id], (err, movieResults) => {
+    if(movieResults.length === 0) {
+        return res.status(404).json({
+            error: "Film non trovato",
+        })
+    }
+    const {name, text, vote} = req.body;
+ const newReviewSql = `
+ INSERT INTO reviews (movie_id, name, vote, text)
+ VALUES (?, ?, ?, ?)
+ `
+ connection.query(newReviewSql, [id, name, vote, text], (err, results) => {
+     if (err) {
+             return next(new Error(err))
+        }
+        return res.status(201).json({
+            message: "review created",
+            id:results.insertId,
+        })
+ })
+})
+}
 export default {
     index,
-    show
+    show,
+    storeReview,
 };
